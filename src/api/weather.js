@@ -40,4 +40,9 @@ export const cities = [
   { name: 'RIO DE JANEIRO', lat: -22.9068, lon: -43.1729 },
   { name: 'BEIJING', lat: 39.9042, lon: 116.4074 },
   { name: 'LOS ANGELES', lat: 34.0522, lon: -118.2437 },
+];
+
+export const allCities = [
+  ...cities,
+  { name: 'SAN FRANCISCO', lat: 37.7749, lon: -122.4194 },
 ]; 

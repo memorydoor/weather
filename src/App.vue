@@ -5,17 +5,19 @@ import CityTabs from './components/CityTabs.vue'
 import NextHours from './components/NextHours.vue'
 import NextDays from './components/NextDays.vue'
 import FooterBar from './components/FooterBar.vue'
-import { fetchWeather, cities } from './api/weather.js'
+import { fetchWeather, cities, allCities } from './api/weather.js'
 
-const selectedCityIndex = ref(2) // Default: Los Angeles
+const cityTabs = ref([...cities])
+const selectedTabIndex = ref(2) // Default: Los Angeles
 const weather = ref(null)
 const loading = ref(true)
 const error = ref(null)
+const showSearch = ref(false)
 
 async function loadWeather() {
   try {
     loading.value = true
-    const { lat, lon } = cities[selectedCityIndex.value]
+    const { lat, lon } = cityTabs.value[selectedTabIndex.value]
     weather.value = await fetchWeather(lat, lon)
   } catch (e) {
     error.value = e.message
@@ -25,17 +27,35 @@ async function loadWeather() {
 }
 
 onMounted(loadWeather)
-watch(selectedCityIndex, loadWeather)
+watch(selectedTabIndex, loadWeather)
 
 function handleCityChange(index) {
-  selectedCityIndex.value = index
+  selectedTabIndex.value = index
+}
+function handleSearchCity(index) {
+  const city = allCities[index]
+  // Check if city is already in tabs
+  const tabIdx = cityTabs.value.findIndex(c => c.name === city.name)
+  if (tabIdx !== -1) {
+    selectedTabIndex.value = tabIdx
+  } else {
+    // Replace last tab with new city
+    cityTabs.value[cityTabs.value.length - 1] = city
+    selectedTabIndex.value = cityTabs.value.length - 1
+  }
+}
+function handleSearch() {
+  showSearch.value = true
+}
+function handleSearchSelect(index) {
+  selectedTabIndex.value = index
 }
 </script>
 
 <template>
   <div class="app-container">
-    <AppBar />
-    <CityTabs :cities="cities" :selected="selectedCityIndex" @change="handleCityChange" />
+    <AppBar :cities="allCities" @search-city="handleSearchCity" />
+    <CityTabs :cities="cityTabs" :selected="selectedTabIndex" @change="handleCityChange" />
     <main class="main-content">
       <div v-if="loading">Loading weather...</div>
       <div v-else-if="error">Error: {{ error }}</div>
