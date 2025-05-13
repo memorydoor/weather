@@ -48,7 +48,7 @@ const filteredCities = computed(() => {
   if (!debouncedQuery.value) return []
   return props.cities
     .filter(city => city.name.toLowerCase().startsWith(debouncedQuery.value.toLowerCase()))
-    .slice(0, 20)
+    .slice(0, 5)
 })
 
 const inputRef = ref(null)
