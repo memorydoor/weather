@@ -15,12 +15,19 @@
 </template>
 
 <script setup>
-const hours = [
-  { temp: 20, precip: 0, time: '3:00 PM', icon: '01d' },
-  { temp: 23, precip: 0, time: '4:00 PM', icon: '01d' },
-  { temp: 25, precip: 0, time: '5:00 PM', icon: '01d' },
-  { temp: 26, precip: 0, time: '6:00 PM', icon: '01d' },
-]
+import { computed, watch } from 'vue'
+const props = defineProps({
+  hourly: {
+    type: Array,
+    required: true
+  }
+})
+const hours = computed(() => props.hourly)
+
+// Debug log
+watch(() => props.hourly, (val) => {
+  console.log('NextHours.vue hourly prop:', val)
+}, { immediate: true })
 </script>
 
 <style scoped>

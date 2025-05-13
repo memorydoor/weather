@@ -20,12 +20,14 @@
 </template>
 
 <script setup>
-const days = [
-  { icon: '01d', day: 'Fri', date: 'Nov 1', desc: 'Clear throughout the day.', high: 27, low: 11 },
-  { icon: '01d', day: 'Sat', date: 'Nov 2', desc: 'Clear throughout the day.', high: 28, low: 13 },
-  { icon: '01d', day: 'Sun', date: 'Nov 3', desc: 'Clear throughout the day.', high: 27, low: 14 },
-  { icon: '02d', day: 'Mon', date: 'Nov 4', desc: 'Clear throughout the day.', high: 26, low: 11 },
-]
+import { computed } from 'vue'
+const props = defineProps({
+  daily: {
+    type: Array,
+    required: true
+  }
+})
+const days = computed(() => props.daily)
 </script>
 
 <style scoped>

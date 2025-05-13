@@ -1,9 +1,28 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import AppBar from './components/AppBar.vue'
 import CityTabs from './components/CityTabs.vue'
 import NextHours from './components/NextHours.vue'
 import NextDays from './components/NextDays.vue'
 import FooterBar from './components/FooterBar.vue'
+import { fetchWeather, cities } from './api/weather.js'
+
+const weather = ref(null)
+const loading = ref(true)
+const error = ref(null)
+
+onMounted(async () => {
+  try {
+    loading.value = true
+    // Los Angeles is the third city in the list
+    const { lat, lon } = cities[2]
+    weather.value = await fetchWeather(lat, lon)
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
@@ -11,8 +30,12 @@ import FooterBar from './components/FooterBar.vue'
     <AppBar />
     <CityTabs />
     <main class="main-content">
-      <NextHours />
-      <NextDays />
+      <div v-if="loading">Loading weather...</div>
+      <div v-else-if="error">Error: {{ error }}</div>
+      <template v-else>
+        <NextHours :hourly="weather.hours" />
+        <NextDays :daily="weather.days" />
+      </template>
     </main>
     <FooterBar />
   </div>
