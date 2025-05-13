@@ -37,7 +37,13 @@ const searchQuery = ref('')
 const inputRef = ref(null)
 const filteredCities = computed(() => {
   if (!searchQuery.value) return []
-  return props.cities.filter(city => city.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+  //return props.cities.filter(city => city.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+
+  let filteredCities = props.cities.filter(function(city) {
+    return city.name.toLowerCase().startsWith(searchQuery.value.toLowerCase())
+  })
+
+  return filteredCities
 })
 function handleSearchClick() {
   showInput.value = !showInput.value
