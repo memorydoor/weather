@@ -50,3 +50,17 @@ This project is a mobile-friendly weather web application built with Vue 3 and V
 - Make sure your API key is valid and has access to the `/forecast` endpoint (free plan).
 
 ---
+
+## Screenshots
+
+### Main Weather UI
+
+![Mobile Weather App Screenshot](doc/feature1/feature1_v3.png)
+_Mobile-friendly weather app UI_
+
+### City Search Example
+
+![City Search Screenshot](doc/feature3/feature3_v1.png)
+_City search dropdown with multiple results_
+
+---
