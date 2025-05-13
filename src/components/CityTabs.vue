@@ -1,13 +1,29 @@
 <template>
   <nav class="city-tabs">
-    <div class="tab" :class="{active: city === 'RIO DE JANEIRO'}">RIO DE JANEIRO</div>
-    <div class="tab" :class="{active: city === 'BEIJING'}">BEIJING</div>
-    <div class="tab active">LOS ANGELES</div>
+    <div
+      v-for="(city, idx) in cities"
+      :key="city.name"
+      class="tab"
+      :class="{ active: idx === selected }"
+      @click="emit('change', idx)"
+    >
+      {{ city.name }}
+    </div>
   </nav>
 </template>
 
 <script setup>
-const city = 'LOS ANGELES' // static for now
+const props = defineProps({
+  cities: {
+    type: Array,
+    required: true
+  },
+  selected: {
+    type: Number,
+    required: true
+  }
+})
+const emit = defineEmits(['change'])
 </script>
 
 <style scoped>

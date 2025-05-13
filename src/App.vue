@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import AppBar from './components/AppBar.vue'
 import CityTabs from './components/CityTabs.vue'
 import NextHours from './components/NextHours.vue'
@@ -7,28 +7,35 @@ import NextDays from './components/NextDays.vue'
 import FooterBar from './components/FooterBar.vue'
 import { fetchWeather, cities } from './api/weather.js'
 
+const selectedCityIndex = ref(2) // Default: Los Angeles
 const weather = ref(null)
 const loading = ref(true)
 const error = ref(null)
 
-onMounted(async () => {
+async function loadWeather() {
   try {
     loading.value = true
-    // Los Angeles is the third city in the list
-    const { lat, lon } = cities[2]
+    const { lat, lon } = cities[selectedCityIndex.value]
     weather.value = await fetchWeather(lat, lon)
   } catch (e) {
     error.value = e.message
   } finally {
     loading.value = false
   }
-})
+}
+
+onMounted(loadWeather)
+watch(selectedCityIndex, loadWeather)
+
+function handleCityChange(index) {
+  selectedCityIndex.value = index
+}
 </script>
 
 <template>
   <div class="app-container">
     <AppBar />
-    <CityTabs />
+    <CityTabs :cities="cities" :selected="selectedCityIndex" @change="handleCityChange" />
     <main class="main-content">
       <div v-if="loading">Loading weather...</div>
       <div v-else-if="error">Error: {{ error }}</div>
