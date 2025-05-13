@@ -3,7 +3,9 @@
     <h2 class="card-title">Next 5 days</h2>
     <div class="days-list">
       <div class="day-row" v-for="(d, i) in days" :key="i">
-        <div class="icon">{{ d.icon }}</div>
+        <div class="icon">
+          <img :src="`/src/assets/weather-icons/${d.icon}@2x.png`" :alt="d.icon" class="weather-icon" />
+        </div>
         <div class="info">
           <div class="day-date">{{ d.day }}, {{ d.date }}</div>
           <div class="desc">{{ d.desc }}</div>
@@ -19,10 +21,10 @@
 
 <script setup>
 const days = [
-  { icon: '☀️', day: 'Fri', date: 'Nov 1', desc: 'Clear throughout the day.', high: 27, low: 11 },
-  { icon: '☀️', day: 'Sat', date: 'Nov 2', desc: 'Clear throughout the day.', high: 28, low: 13 },
-  { icon: '☀️', day: 'Sun', date: 'Nov 3', desc: 'Clear throughout the day.', high: 27, low: 14 },
-  { icon: '🌤️', day: 'Mon', date: 'Nov 4', desc: 'Clear throughout the day.', high: 26, low: 11 },
+  { icon: '01d', day: 'Fri', date: 'Nov 1', desc: 'Clear throughout the day.', high: 27, low: 11 },
+  { icon: '01d', day: 'Sat', date: 'Nov 2', desc: 'Clear throughout the day.', high: 28, low: 13 },
+  { icon: '01d', day: 'Sun', date: 'Nov 3', desc: 'Clear throughout the day.', high: 27, low: 14 },
+  { icon: '02d', day: 'Mon', date: 'Nov 4', desc: 'Clear throughout the day.', high: 26, low: 11 },
 ]
 </script>
 
@@ -58,6 +60,11 @@ const days = [
 .icon {
   font-size: 1.7rem;
   margin-right: 0.7rem;
+}
+.weather-icon {
+  width: 36px;
+  height: 36px;
+  display: block;
 }
 .info {
   flex: 1 1 0;

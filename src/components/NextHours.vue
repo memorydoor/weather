@@ -5,7 +5,9 @@
       <div class="hour" v-for="(h, i) in hours" :key="i">
         <div class="temp">{{ h.temp }}°</div>
         <div class="precip">{{ h.precip }}%</div>
-        <div class="icon">☀️</div>
+        <div class="icon">
+          <img :src="`/src/assets/weather-icons/${h.icon}@2x.png`" :alt="h.icon" class="weather-icon" />
+        </div>
         <div class="time">{{ h.time }}</div>
       </div>
     </div>
@@ -14,10 +16,10 @@
 
 <script setup>
 const hours = [
-  { temp: 20, precip: 0, time: '3:00 PM' },
-  { temp: 23, precip: 0, time: '4:00 PM' },
-  { temp: 25, precip: 0, time: '5:00 PM' },
-  { temp: 26, precip: 0, time: '6:00 PM' },
+  { temp: 20, precip: 0, time: '3:00 PM', icon: '01d' },
+  { temp: 23, precip: 0, time: '4:00 PM', icon: '01d' },
+  { temp: 25, precip: 0, time: '5:00 PM', icon: '01d' },
+  { temp: 26, precip: 0, time: '6:00 PM', icon: '01d' },
 ]
 </script>
 
@@ -63,6 +65,11 @@ const hours = [
 .icon {
   font-size: 1.5rem;
   margin-bottom: 0.2rem;
+}
+.weather-icon {
+  width: 36px;
+  height: 36px;
+  display: block;
 }
 .time {
   font-size: 0.95rem;
