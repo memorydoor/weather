@@ -1,30 +1,51 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import AppBar from './components/AppBar.vue'
+import CityTabs from './components/CityTabs.vue'
+import NextHours from './components/NextHours.vue'
+import NextDays from './components/NextDays.vue'
+import FooterBar from './components/FooterBar.vue'
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="app-container">
+    <AppBar />
+    <CityTabs />
+    <main class="main-content">
+      <NextHours />
+      <NextDays />
+    </main>
+    <FooterBar />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style>
+body {
+  background: #222;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.app-container {
+  width: 390px;
+  height: 844px;
+  min-height: unset;
+  background: #e3f0fc;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 24px auto;
+  border: 1.5px solid #aaa;
+  border-radius: 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  overflow: hidden;
+  position: relative;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0.5rem 0.5rem 0.5rem;
+  max-width: 400px;
+  width: 100vw;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 </style>
