@@ -18,7 +18,7 @@
         </svg>
       </span>
       <ul v-if="showInput && filteredCities.length" class="city-dropdown">
-        <li v-for="(city, idx) in filteredCities" :key="city.name" @click="selectCity(props.cities.findIndex(c => c.name === city.name))">
+        <li v-for="(city, idx) in filteredCities" :key="city.id" @click="selectCity(props.cities.findIndex(c => c.id === city.id))">
           {{ city.name }}
         </li>
       </ul>
@@ -34,17 +34,24 @@ const props = defineProps({
 const emit = defineEmits(['search-city'])
 const showInput = ref(false)
 const searchQuery = ref('')
-const inputRef = ref(null)
-const filteredCities = computed(() => {
-  if (!searchQuery.value) return []
-  //return props.cities.filter(city => city.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+const debouncedQuery = ref('')
+let debounceTimeout = null
 
-  let filteredCities = props.cities.filter(function(city) {
-    return city.name.toLowerCase().startsWith(searchQuery.value.toLowerCase())
-  })
-
-  return filteredCities
+watch(searchQuery, (val) => {
+  clearTimeout(debounceTimeout)
+  debounceTimeout = setTimeout(() => {
+    debouncedQuery.value = val
+  }, 200)
 })
+
+const filteredCities = computed(() => {
+  if (!debouncedQuery.value) return []
+  return props.cities
+    .filter(city => city.name.toLowerCase().startsWith(debouncedQuery.value.toLowerCase()))
+    .slice(0, 20)
+})
+
+const inputRef = ref(null)
 function handleSearchClick() {
   showInput.value = !showInput.value
   searchQuery.value = ''
